@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util" xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+      http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+      http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+    <tx:annotation-driven proxy-target-class="true" />
+
+    <!-- UnComment out the next two beans to use real JDBC based backend using props in tcop-cloud.properties -->
+    <!--
+    <bean id="tcopDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${tcop.jdbc.driver}" />
+        <property name="url" value="${tcop.jdbc.url}" />
+        <property name="username" value="${tcop.jdbc.user}" />
+        <property name="password" value="${tcop.jdbc.pw}" />
+    </bean>
+
+    <jdbc:initialize-database data-source="tcopDataSource" enabled="${tcop.jdbc.db.initialize}" ignore-failures="ALL">
+        <jdbc:script location="${tcop.jdbc.db.createSql}" />
+        <jdbc:script location="${tcop.jdbc.db.dataSql}"/>
+    </jdbc:initialize-database>
+    -->
+
+    <!-- Un-comment  to use non-persistent in-memory database -->
+    <jdbc:embedded-database id="tcopDataSource">
+        <jdbc:script location="${studerw.sscdb.jdbc.db.createSql}" />
+        <jdbc:script location="${tcop.jdbc.db.dataSql}" />
+    </jdbc:embedded-database>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+        p:dataSource-ref="tcopDataSource" />
+
+    <!-- Verbose DB Debugging - change the name of above tcopDataSource bean to tcopDataSourceSpied -->
+    <!--  see http://code.google.com/p/log4jdbc-remix/  -->
+    <!--
+    <bean id="tcopDataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+        <constructor-arg ref="tcopDataSourceSpied" />
+    </bean>
+    -->
+
+</beans>
