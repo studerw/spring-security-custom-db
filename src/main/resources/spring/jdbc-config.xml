@@ -10,23 +10,9 @@
 
     <tx:annotation-driven proxy-target-class="true" />
 
-    <!-- UnComment out the next two beans to use real JDBC based backend using props in tcop-cloud.properties -->
-    <!--
-    <bean id="tcopDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${tcop.jdbc.driver}" />
-        <property name="url" value="${tcop.jdbc.url}" />
-        <property name="username" value="${tcop.jdbc.user}" />
-        <property name="password" value="${tcop.jdbc.pw}" />
-    </bean>
-
-    <jdbc:initialize-database data-source="tcopDataSource" enabled="${tcop.jdbc.db.initialize}" ignore-failures="ALL">
-        <jdbc:script location="${tcop.jdbc.db.createSql}" />
-        <jdbc:script location="${tcop.jdbc.db.dataSql}"/>
-    </jdbc:initialize-database>
-    -->
 
     <!-- Un-comment  to use non-persistent in-memory database -->
-    <jdbc:embedded-database id="tcopDataSource">
+    <jdbc:embedded-database id="dataSource">
         <jdbc:script location="${studerw.sscdb.jdbc.db.createSql}" />
         <jdbc:script location="${tcop.jdbc.db.dataSql}" />
     </jdbc:embedded-database>

@@ -12,3 +12,7 @@
 
 #maven
 target/
+
+#intellij
+\.idea/
+*.iml

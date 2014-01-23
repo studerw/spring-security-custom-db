@@ -50,7 +50,7 @@ public class HSQLAuthenticationProvider extends AbstractUserDetailsAuthenticatio
         String clearText = String.valueOf(authentication.getCredentials());
         UserDetails userDetails = this.retrieveUser(authentication.getName(), (UsernamePasswordAuthenticationToken) authentication);
 
-        if (!StringUtils.equals(clearText,  userDetails.getPassword())){
+        if (!StringUtils.equals(clearText, userDetails.getPassword())){
             throw new BadCredentialsException("invalid password");
         }
         if (!userDetails.isEnabled()){
@@ -73,7 +73,7 @@ public class HSQLAuthenticationProvider extends AbstractUserDetailsAuthenticatio
     protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
         log.trace("retrieveUser()");
         log.debug("retrieveing user: " + username);
-        User user = null;
+        User user;
         try {
              user= this.read(username);
         }

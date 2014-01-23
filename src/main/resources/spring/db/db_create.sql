@@ -3,16 +3,17 @@
 
 CREATE TABLE users (
     id character varying(36) PRIMARY KEY,
+    blah character varying(36) U
     name character varying(50) NOT NULL UNIQUE,
     role character varying(36) NOT NULL,
     password character varying(100) NOT NULL,
-    active boolean default true
+    active boolean default true  NOT NULL
 );
 
 
 CREATE TABLE roles (
     id character varying(36) PRIMARY KEY,
-    name character varying(50) NOT NULL UNIQUE,
+    name character varying(50) NOT NULL UNIQUE
 );
 
 

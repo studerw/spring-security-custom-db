@@ -1,44 +1,42 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:security="http://www.springframework.org/schema/security"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-    <security:debug />
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:oxm="http://www.springframework.org/schema/oxm" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.2.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 
-    <security:global-method-security jsr250-annotations="enabled" pre-post-annotations="enabled" secured-annotations="enabled" />
+    <!-- Just look for Controller -->
+    <context:component-scan base-package="com.studerw.spring" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+        <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+    </context:component-scan>
 
-    <security:http use-expressions="true">
-        <security:intercept-url pattern="/**" access="permitAll" />
-        <security:form-login />
-        <security:logout logout-success-url="/" delete-cookies="JSESSIONID"/>
-        <security:remember-me />
-        <security:session-management invalid-session-url="/">
-            <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
-        </security:session-management>
-    </security:http>
+    <mvc:annotation-driven/>
 
-    <bean id="encoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"/>
 
-    <security:authentication-manager>
-        <security:authentication-provider>
-            <security:password-encoder ref="encoder"/>
-            <security:user-service>
-                <!-- Password: "koala" for both -->
-                <security:user name="user"
-                      password="4efe081594ce25ee4efd9f7067f7f678a347bccf2de201f3adf2a3eb544850b465b4e51cdc3fcdde"
-                      authorities="user"/>
-                <security:user name="admin"
-                      password="4efe081594ce25ee4efd9f7067f7f678a347bccf2de201f3adf2a3eb544850b465b4e51cdc3fcdde"
-                      authorities="admin"/>
-            </security:user-service>
-        </security:authentication-provider>
-    </security:authentication-manager>
+    <mvc:resources mapping="/resources/**" location="/resources/" order="1" />
 
-    <context:component-scan base-package="com.studerw.spring"/>
 
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/pages/"/>
-        <property name="suffix" value=".jsp"/>
+    <context:property-placeholder location="classpath:spring/app.properties" />
+
+    <!-- this is just another convenience props instance so we can shove all of them into the Widget View in one shot -->
+    <util:properties id="appProperties" location="classpath:spring/app.properties" />
+
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+          p:basename="classpath:messages/messages" />
+
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" />
+
     </bean>
+
 </beans>
