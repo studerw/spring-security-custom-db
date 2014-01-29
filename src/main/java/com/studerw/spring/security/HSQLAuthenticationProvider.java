@@ -96,7 +96,9 @@ public class HSQLAuthenticationProvider extends AbstractUserDetailsAuthenticatio
     protected User read(String name) {
         log.trace("read()");
         log.debug("reading user: " + name);
-        String sql = "SELECT * FROM users WHERE UPPER(name) = :name";
+        String sql = "SELECT users.id, users.name, users.active, users.password, roles.name FROM users, roles " +
+                " WHERE roles.id = users.role AND" +
+                " UPPER(users.name) = :name";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("name", StringUtils.upperCase(name));
         User user = this.jdbcTemplate.queryForObject(sql, params, new UserRowMapper());
@@ -107,10 +109,11 @@ public class HSQLAuthenticationProvider extends AbstractUserDetailsAuthenticatio
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
             User user = new com.studerw.spring.model.User();
-            user.setId(StringUtils.trim(rs.getString("userid")));
-            user.setPassword(StringUtils.trim(rs.getString("password")));
-            user.setRole(StringUtils.trim(rs.getString("role")));
-            user.setActive(rs.getBoolean("active"));
+            user.setName(StringUtils.trim(rs.getString("users.name")));
+            user.setId(StringUtils.trim(rs.getString("users.id")));
+            user.setPassword(StringUtils.trim(rs.getString("users.password")));
+            user.setRole(StringUtils.trim(rs.getString("roles.name")));
+            user.setActive(rs.getBoolean("users.active"));
             log.trace(user.toString());
             return user;
         }

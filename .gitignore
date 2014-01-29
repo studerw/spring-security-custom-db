@@ -1,5 +1,5 @@
 *.class
-
+spring-security-custom-db.log
 # Package Files #
 *.jar
 *.war

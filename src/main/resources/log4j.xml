@@ -23,7 +23,7 @@
    </appender>
 
    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
-      <param name="Threshold" value="INFO"/>
+      <param name="Threshold" value="DEBUG  "/>
       <param name="Target" value="System.out"/>
 
       <layout class="org.apache.log4j.PatternLayout">
@@ -37,15 +37,19 @@
    <!-- Limit categories -->
    <!-- ================ -->
 
-   <category name="org.studerw">
+   <category name="com.studerw">
       <priority value="DEBUG"/>
    </category>
 
    <category name="org.springframework">
-      <priority value="INFO"/>
+      <priority value="DEBUG"/>
    </category>
 
-   <!-- ======================= -->
+    <category name="org.springframework">
+        <priority value="INFO"/>
+    </category>
+
+    <!-- ======================= -->
    <!-- Setup the Root category -->
    <!-- ======================= -->
 
