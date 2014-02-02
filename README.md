@@ -1,8 +1,6 @@
 spring-security-custom-db
 =========================
 
-spring-security-custom-db
-
 This is an example of a basic Spring 3.2.x MVC application protected by Spring Security.
 
 To run the app locally, run 'mvn tomcat7:run'.
@@ -12,8 +10,11 @@ In your browser, go to http://localhost:9090
 By default there are four users:
 
 test_user/password
+
 test_admin/password
+
 test_user_disabled/password
+
 test_admin_disabled/password
 
 All passwords are simply 'password'. The 3rd and 4th user are, of course, disabled within
@@ -24,7 +25,6 @@ add basic web security to an application, it is not exactly straightforward when
 default database based schema for users and roles.
 
 The SQL files to create and insert data are located under /src/main/resources/spring/db.
-
 
 This application uses an embedded HSQL database with the following schema:
 
