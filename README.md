@@ -9,10 +9,10 @@ In your browser, go to http://127.0.0.1:9090
 
 By default there are four users:
 
-*user / password
-*admin / password
-*user-disabled / password
-*admin-disabled / password
+* user / password
+* admin / password
+* user-disabled / password
+* admin-disabled / password
 
 All passwords are simply *password*. The 3rd and 4th user are, of course, disabled within
 the database *active* boolean value, and will not be able to login.
@@ -25,18 +25,18 @@ The SQL files to create and insert data are located under */src/main/resources/s
 
 This application uses an embedded HSQL database with the following schema:
 
---------------------------------
+***Users table***
 
-**Users table**
-- id (UUID)
-- name (Unique varchar)
-- role (FK to Roles(id))
-- password (varchar)
-- active (boolean)
+* id (UUID)
+* name (Unique varchar)
+* role (FK to Roles(id))
+* password (varchar)
+* active (boolean)
 
-**Roles table**
-- id (UUID)
-- name (Unique varchar)
+***Roles table***
+
+* id (UUID)
+* name (Unique varchar)
 
 --------------------------------
 
@@ -44,7 +44,7 @@ The Spring Security configuration is located under */src/main/resources/spring/s
 
 The basic idea is as follows:
 
-1. A HsqlAuthenticationProvider bean is defined which overrides the framework class *AbstractUserDetailsAuthenticationProvider*.
+1. An *HsqlAuthenticationProvider* bean is defined which overrides the framework class *AbstractUserDetailsAuthenticationProvider*.
 This class is responsible for checking the credentials passed by Spring Security's 
 default login page. The provider has a Spring data source injected for database access.
 
