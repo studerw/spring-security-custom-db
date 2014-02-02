@@ -11,7 +11,7 @@
 
         <intercept-url pattern="/resources/**" access="permitAll"/>
         <intercept-url pattern="/admin.htm" access="hasAnyRole('ADMIN')"/>
-        <intercept-url pattern="/**" access="hasAnyRole('USER, ADMIN')"/>
+            <intercept-url pattern="/**" access="hasAnyRole('USER, ADMIN')"/>
 
     </http>
 

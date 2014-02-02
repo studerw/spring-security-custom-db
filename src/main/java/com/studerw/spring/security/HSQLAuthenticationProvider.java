@@ -9,8 +9,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -31,7 +30,7 @@ import com.studerw.spring.model.User;
 @Service("hsqlAuthenticationProvider")
 public class HSQLAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider{
 
-    private static final Logger log = LoggerFactory.getLogger(HSQLAuthenticationProvider.class);
+    private static final Logger log = Logger.getLogger(HSQLAuthenticationProvider.class);
 
     protected DataSource ds;
     protected NamedParameterJdbcTemplate jdbcTemplate;
@@ -61,7 +60,7 @@ public class HSQLAuthenticationProvider extends AbstractUserDetailsAuthenticatio
 
     @Override
     protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
-        log.trace("additionalAuthenticaitonChecks()");
+        log.trace("additionalAuthenticationChecks()");
         log.debug("isEnabled: " + userDetails.isEnabled());
         if (!userDetails.isEnabled()){
             throw new BadCredentialsException("User not enabled");
@@ -72,7 +71,7 @@ public class HSQLAuthenticationProvider extends AbstractUserDetailsAuthenticatio
     @Transactional(readOnly = true)
     protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
         log.trace("retrieveUser()");
-        log.debug("retrieveing user: " + username);
+        log.debug("retrieving user: " + username);
         User user;
         try {
              user= this.read(username);

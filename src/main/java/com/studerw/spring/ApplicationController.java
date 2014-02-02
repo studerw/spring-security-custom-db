@@ -1,9 +1,7 @@
 package com.studerw.spring;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +16,7 @@ import java.util.Collection;
 
 @Controller
 public class ApplicationController {
-    private static final Logger log = LoggerFactory.getLogger(ApplicationController.class);
+    private static final Logger log = Logger.getLogger(ApplicationController.class);
 
     @Autowired
     private UserService userService;
@@ -27,11 +25,13 @@ public class ApplicationController {
     public String index(ModelMap map) {
         log.debug("index.htm");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            UserDetails userDetails =
-                    (UserDetails) authentication.getPrincipal();
-            map.addAttribute("userDetails", userDetails);
-        }
+        UserDetails userDetails =
+                (UserDetails) authentication.getPrincipal();
+        map.addAttribute("userDetails", userDetails);
+        Collection<? extends GrantedAuthority> roles = userService.getAuthorities(userDetails);
+        map.addAttribute("userDetails", userDetails);
+        map.addAttribute("userAuthorities", roles);
+
         return "index";
     }
 
@@ -40,9 +40,9 @@ public class ApplicationController {
         log.debug("admin.htm");
         UserDetails userDetails =
                 (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Collection<? extends GrantedAuthority> securedMessage = userService.getAuthorities(userDetails);
+        Collection<? extends GrantedAuthority> roles = userService.getAuthorities(userDetails);
         map.addAttribute("userDetails", userDetails);
-        map.addAttribute("userAuthorities", securedMessage);
+        map.addAttribute("userAuthorities", roles);
         return "admin";
     }
 }

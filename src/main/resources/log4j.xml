@@ -2,7 +2,7 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
 <!--
-   For more configuration infromation and examples see the Apache Log4j website: http://logging.apache.org/log4j/
+   For more configuration information and examples see the Apache Log4j website: http://logging.apache.org/log4j/
  -->
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
 
@@ -41,7 +41,7 @@
       <priority value="DEBUG"/>
    </category>
 
-   <category name="org.springframework">
+   <category name="org.springframework.security">
       <priority value="DEBUG"/>
    </category>
 
